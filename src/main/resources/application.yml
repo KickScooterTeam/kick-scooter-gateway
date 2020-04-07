@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: kick-scooter-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/cards/**,/invoices/**,/payments/**
+        - id: vehicle-service
+          uri: lb://vehicle-service
+          predicates:
+            - Path=/scooters/**
+        - id: trip-service
+          uri: lb://trip-service
+          predicates:
+            - Path=/trips/**
+        - id: messaging-service
+          uri: lb://messaging-service
+          predicates:
+            - Path=/messages/**
+        - id: identity-service
+          uri: lb://identity-service
+          predicates:
+            - Path=/accounts/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_SERVER}/eureka/
+
+
