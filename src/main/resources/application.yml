@@ -4,31 +4,35 @@ spring:
 
   cloud:
     gateway:
+      default-filters:
+        - StripPrefix=1
       routes:
         - id: payment-service
           uri: lb://payment-service
           predicates:
-            - Path=/cards/**,/invoices/**,/payments/**
+            - Path=/payment-service/**
         - id: vehicle-service
           uri: lb://vehicle-service
           predicates:
-            - Path=/scooters/**
+            - Path=/vehicle-service/**
         - id: trip-service
           uri: lb://trip-service
           predicates:
-            - Path=/trips/**
+            - Path=/trip-service/**
         - id: messaging-service
           uri: lb://messaging-service
           predicates:
-            - Path=/messages/**
+            - Path=/messaging-service/**
         - id: identity-service
           uri: lb://identity-service
           predicates:
-            - Path=/accounts/**
+            - Path=/identity-service/**
 
 eureka:
   client:
     service-url:
       defaultZone: http://${EUREKA_SERVER}/eureka/
 
-
+logging:
+  level:
+    root: debug
