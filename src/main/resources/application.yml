@@ -33,6 +33,10 @@ eureka:
     service-url:
       defaultZone: http://${EUREKA_SERVER}/eureka/
 
+#logging:
+#  level:
+#    root: debug
+
 logging:
-  level:
-    root: debug
+  file:
+    path: /var/log/gateway
