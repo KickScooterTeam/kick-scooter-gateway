@@ -27,15 +27,23 @@ spring:
           uri: lb://identity-service
           predicates:
             - Path=/identity-service/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+            exposedHeaders:
+              - Authorization
 
 eureka:
   client:
     service-url:
       defaultZone: http://${EUREKA_SERVER}/eureka/
-
-#logging:
-#  level:
-#    root: debug
 
 logging:
   file:

@@ -9,5 +9,4 @@ public class KickScooterGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(KickScooterGatewayApplication.class, args);
     }
-
 }
