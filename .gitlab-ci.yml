@@ -5,7 +5,8 @@ stages:
     
 build:
   stage: build
-  script: 
+  script:
+    - CI=false
     - cp /home/sumo_credentials.txt ./sumo_credentials.txt    
     - mvn clean package
     - sudo docker build -t gitlab.sslsecure.website:5050/root/kick-scooter-trip:gateway .
