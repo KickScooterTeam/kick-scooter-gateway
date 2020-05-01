@@ -56,12 +56,12 @@ export default function MapComponent() {
 
     const coordinates = [48.464970, 35.046537]
 
-    // const customIcon=L.icon({
-    //     iconUrl: point,
-    //     iconSize:     [44, 51], // size of the icon
-    //     iconAnchor:   [55, 55], // point of the icon which will correspond to marker's location
-    //     popupAnchor:  [-3, -76],
-    // });
+    const customIcon=L.icon({
+        iconUrl: point,
+        iconSize:     [44, 51], // size of the icon
+        iconAnchor:   [22, 52], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76],
+    });
 
     return (
         <>
@@ -77,7 +77,7 @@ export default function MapComponent() {
                 />
 
                 {scooters.map((p) => (
-                    <Marker position={p.coordinates}>
+                    <Marker position={p.coordinates} icon={customIcon}>
                         <Popup>
             <span>
             Battery: {p.battery}<br/>
