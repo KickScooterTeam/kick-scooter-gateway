@@ -38,7 +38,7 @@ export default function MapComponent() {
                 .catch((error) =>
                     console.log(error)
                 )
-            axios.get(API_BASE_URL + 'trip-service/trips/show-position', token)
+            axios.get('trip-service/trips/show-position', token)
                 .then(response => {
                     console.log(response.data)
                     if (response.status === 200) {
