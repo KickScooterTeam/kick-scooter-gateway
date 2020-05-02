@@ -10,7 +10,7 @@ export default function MapComponent() {
 
     const size = {width: "100vw", height: "100vh"}
     const [scooters, setScooters] = useState([])
-    const [ownScooter, setOwnScooter] = useState({})
+    const [ownScooter, setOwnScooter] = useState([])
     const [chosenScooter, setChosen] = useState({})
     const [pointNewScooter, setNewScooterPoint] = useState({
         stLat: '',
@@ -60,15 +60,6 @@ export default function MapComponent() {
         setChosen(id);
     };
 
-
-    const addTestScooter = (e) => {
-        if (createScooterMode) {
-            setNewScooterPoint()
-        }
-        //console.log(coordinates)
-
-    }
-
     const coordinates = [48.464970, 35.046537]
 
     const customIcon=L.icon({
@@ -82,7 +73,6 @@ export default function MapComponent() {
         <>
             <Map
                 center={coordinates}
-                onClick={addTestScooter}
                 zoom={13}
                 style={size}
             >
@@ -90,15 +80,17 @@ export default function MapComponent() {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                 />
-                <Marker position={ownScooter.coordinates}>
-                <Popup>
+                {ownScooter.map((p) => (
+                    <Marker position={p.coordinates} icon={customIcon}>
+                        <Popup>
                     <span>
-                    Battery: {ownScooter.battery}<br/>
-                    Id: {ownScooter.id}<br/>
+                    Battery: {p.battery}<br/>
+                    Id: {p.id}
                     Own!
-                    </span> 
-                </Popup>
-                </Marker>
+                    </span>
+                        </Popup>
+                    </Marker>
+                ))}
 
                 {scooters.map((p) => (
                     <Marker position={p.coordinates} icon={customIcon}>
