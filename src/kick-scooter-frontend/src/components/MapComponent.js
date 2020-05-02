@@ -3,12 +3,15 @@ import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import axios from "axios";
 import L from 'leaflet';
 import point from "../icons/point.svg";
+import tokenDecoder from "../utils/tokenDecoder";
+
 
 export default function MapComponent() {
 
-    const size = {width: "100vw", height: "100vh"};
-    const [scooters, setScooters] = useState([]);
-    const [chosenScooter, setChosen] = useState({});
+    const size = {width: "100vw", height: "100vh"}
+    const [scooters, setScooters] = useState([])
+    const [ownScooter, setOwnScooter] = useState({})
+    const [chosenScooter, setChosen] = useState({})
     const [pointNewScooter, setNewScooterPoint] = useState({
         stLat: '',
         stLon: '',
@@ -23,6 +26,7 @@ export default function MapComponent() {
     const [simulationMode, setSimMode] = useState();
     const [createScooterMode, setCreateScooterMode] = useState(false);
 
+    const token = tokenDecoder();
 
     useEffect(() => {
 
@@ -34,6 +38,17 @@ export default function MapComponent() {
                 .catch((error) =>
                     console.log(error)
                 )
+            axios.get(API_BASE_URL + 'trip-service/trips/show-position', token)
+                .then(response => {
+                    console.log(response.data)
+                    if (response.status === 200) {
+                        setOwnScooter(response.data)
+                    }
+                })
+                .catch((error) =>
+                    console.log(error)
+                )
+
         }, 1000);
 
         return () => clearInterval(interval);
@@ -50,7 +65,7 @@ export default function MapComponent() {
         if (createScooterMode) {
             setNewScooterPoint()
         }
-        console.log(coordinates)
+        //console.log(coordinates)
 
     }
 
@@ -75,14 +90,23 @@ export default function MapComponent() {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                 />
+                <Marker position={ownScooter.coordinates}>
+                <Popup>
+                    <span>
+                    Battery: {ownScooter.battery}<br/>
+                    Id: {ownScooter.id}<br/>
+                    Own!
+                    </span> 
+                </Popup>
+                </Marker>
 
                 {scooters.map((p) => (
                     <Marker position={p.coordinates} icon={customIcon}>
                         <Popup>
-            <span>
-            Battery: {p.battery}<br/>
-            Id: {p.id}
-            </span>
+                    <span>
+                    Battery: {p.battery}<br/>
+                    Id: {p.id}
+                    </span>
                         </Popup>
                     </Marker>
                 ))}
@@ -91,3 +115,4 @@ export default function MapComponent() {
         </>
     );
 }
+
